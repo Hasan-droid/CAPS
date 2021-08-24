@@ -26,8 +26,8 @@ describe("caps test", () => {
 
     it('transit',()=>{
         const caps = require("../models/caps");
-        caps.emit('deleverd',payload);
-        expect( caps.emit('deleverd',payload)).toEqual(true);
+        caps.emit('delverd',payload);
+        expect( caps.emit('delverd',payload)).toEqual(true);
     });
 });
 

@@ -17,7 +17,7 @@ events.on('pickup',payload=>{
         payload:payload
     })
 
-    events.emit('driverPickup' , payload);
+    events.emit('driverPickedup' , payload);
 })
 
 events.on('transit', payload=>{
@@ -29,7 +29,7 @@ events.on('transit', payload=>{
     events.emit('driverTransit',payload);
 })
 
-events.on('deleverd' , payload=>{
+events.on('delverd' , payload=>{
     console.log('event:' , {
         event:'deleverd',
         time:`${year}-${month}-${day} Time ${time}`,
@@ -37,5 +37,13 @@ events.on('deleverd' , payload=>{
     });
     events.emit('driverDeleverd',payload);
 });
+
+events.on("driverDeleverd",payload=>{
+    console.log('event' , {
+      event:`customer ${payload.customerName} has recived the package`,
+      time:`${year}-${month}-${day} Time ${time}`,
+      payload:payload
+    })
+})
 
 module.exports=events;
