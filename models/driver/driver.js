@@ -7,11 +7,14 @@ const io=require('socket.io-client');
 const host=process.emit.HOST ||'http://localhost:8080'
 const socket=io.connect(`${host}/caps`)
 
-socket.on('driverPickedup' , payload=>{
+socket.emit('getAll');
+
+socket.on('driverPickup' , payload=>{
     setTimeout(() => {
-        console.log(`Drive picked up ${payload.order_ID} client ${payload.customerName}` );
-        socket.emit('transit',payload);
-    },1000);
+        // console.log( payload.payload.customerName)
+        console.log(`Drive picked up ${payload.id} client ${ payload.payload.customerName}` );
+        socket.emit('received',payload);
+    },5000);
 
     // setTimeout(() => {
     //     console.log(`Driver is delivering to ${payload.customerName} ${payload.order_ID}`);
@@ -29,9 +32,10 @@ socket.on('driverPickedup' , payload=>{
 
 socket.on('driverTransit',payload=>{
     setTimeout(() => {
-        console.log(`Driver is delivering to ${payload.customerName} ${payload.order_ID}`);
+        console.log(`Driver is delivering to ${payload.payload.customerName} ${payload.id}`);
         // console.log(socket.emit('vendorDilevers' , payload));
-        socket.emit('vendorDilevers' , payload);
+        // socket.emit('vendordelverd' , payload);
+        socket.emit("delverd" , payload)
     }, 3000);
 });
 
