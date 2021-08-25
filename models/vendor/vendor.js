@@ -15,20 +15,15 @@ setInterval(()=>{
             address:faker.address.streetAddress()
         };
 
-
+        
         socket.emit('pickup' , custOrder);
        
   
   
 },5000);
 
-socket.on('add' , payload=>{
-     console.log("thank you for adding :" , payload,"to the queue");
-   // console.log(`thanks for delverd ${payload.id} `);
-})
-
-socket.on('vendordelverd' , payload =>{
-     console.log(`thanks for delverd ${payload.id} clien ${payload.payload.customerName} `);
-    // socket.emit('delverd' , payload);
+socket.on('vendorDilevers' , payload =>{
+    console.log(`thanks for ordering ${payload.order_ID} `);
+    socket.emit('delverd' , payload);
 });
 

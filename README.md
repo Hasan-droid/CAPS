@@ -43,8 +43,5 @@
 Unit Tests:
 ![](socket-io-call-results.PNG)
 
-queue results
-![](queue-socket-io-outputs.PNG)
-
 ---
 

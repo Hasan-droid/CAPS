@@ -8,9 +8,6 @@ require('dotenv').config();
 const port=process.env.PORT||8080;
 const io=require('socket.io')(port);
 const caps=io.of('/caps');
-const uuid = require('uuid').v4;
-
-const msgQueue={chroes :{}};
 
 let date = new Date();
 let day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
@@ -27,41 +24,23 @@ caps.on('connection',Socket=>{
     console.log("CONNECTION has Established" , Socket.id);
   
     Socket.on('pickup',payload=>{
-        console.log('****adds a new taks****');
-        const id=uuid();
-        console.log("___ID____",id);
-        msgQueue.chroes[id]=payload;
-       // Socket.emit('add' , payload);
              console.log('event',{
                 event:'pickup',
                  time:`${year}-${month}-${day}-Time ${time}`,
                 payload:payload
             });
-            caps.emit('driverPickup' , {id:id, payload:msgQueue.chroes[id]});
+            caps.emit('driverPickedup' , payload);
           
 });
-Socket.on('getAll',()=>{
-    console.log("__GETALL() : get driver its messages");
-    Object.keys(msgQueue.chroes).forEach(id=>{
-        Socket.emit('driverPickup' , {id:id , payload:msgQueue.chroes[id]})
-    });
+
+Socket.on('transit' , payload=>{
+    console.log('event:',{
+                 event:'transit',
+                time:`${year}-${month}-${day} Time ${time}`,
+                 payload:payload
+            });
+            caps.emit('vendorDilevers' , payload);
 });
-
-Socket.on('received' , msg=>{
-    console.log("Queue's received items will remove")
-    delete msgQueue.chroes[msg.id];
-    console.log("____after remove_____" , msgQueue);
-    caps.emit('driverTransit' , msg);
-})
-
-// Socket.on('transit' , payload=>{
-//     console.log('event:',{
-//                  event:'transit',
-//                 time:`${year}-${month}-${day} Time ${time}`,
-//                  payload:payload
-//             });
-//             caps.emit('vendorDilevers' , payload);
-// });
 
 Socket.on('delverd' , payload=>{
          console.log('event:' , {
@@ -69,8 +48,7 @@ Socket.on('delverd' , payload=>{
              time:`${year}-${month}-${day} Time ${time}`,
              payload:payload
          });
-        //  caps.emit('delverd' , payload);
-         caps.emit('vendordelverd' , payload);
+         caps.emit('driverTransit' , payload);
        
         
      });
